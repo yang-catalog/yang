@@ -20,13 +20,19 @@ module ietf-bgp-origin-as-validation {
   import ietf-bgp {
     prefix "bgp";
     reference
-      "RFC XXXX: BGP YANG Model for Service Provider Networks";
+      "RFC XXXX: YANG Model for Border Gateway Protocol (BGP-4)";
   }
 
   import iana-bgp-types {
     prefix "bt";
     reference
-      "RFC XXXX: BGP YANG Model for Service Provider Networks";
+      "RFC XXXX: YANG Model for Border Gateway Protocol (BGP-4)";
+  }
+
+  import iana-bgp-rib-types {
+    prefix "brt";
+    reference
+      "RFC XXXX: YANG Model for Border Gateway Protocol (BGP-4)";
   }
 
   organization
@@ -37,10 +43,11 @@ module ietf-bgp-origin-as-validation {
 
   description
     "This module describes configuration of the BGP origin AS
-     validation based on the Validated ROA Payload (VRP).
+     validation.
 
      This YANG model conforms to the Network Management
      Datastore Architecture (NMDA) as described in RFC 8342.
+
      Copyright (c) 2022 IETF Trust and the persons identified as
      authors of the code.  All rights reserved.
 
@@ -66,24 +73,11 @@ module ietf-bgp-origin-as-validation {
     description
       "Initial Version";
     reference
-      "RFC XXXX, YANG Data Model for RPKI to Router Protocol
-       and BGP Origin AS Validation";
-  }
-
-  identity vrp-protocol {
-    description
-      "Base identity from which VRP source protocol identities
-       are derived.";
-  }
-
-  identity rpki-rtr {
-    base vrp-protocol;
-    description
-      "RPKI to Router Protocol";
+      "RFC XXXX, YANG Data Model for RPKI to Router Protocol";
   }
 
   identity ineligible-orgin-as {
-    base bgp:ineligible-route-reason;
+    base brt:ineligible-route-reason;
     description
       "Route was ineligible due to origin as validation";
   }
@@ -123,13 +117,6 @@ module ietf-bgp-origin-as-validation {
         default "false";
         description
           "Whether origin-AS validation of BGP prefix is enabled.";
-      }
-      leaf source-protocol {
-        type identityref {
-          base vrp-protocol;
-        }
-        description
-          "Type of the protocol from which the VRP originated.";
       }
       leaf redistribution-as {
         type inet:as-number;
